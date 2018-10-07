@@ -34,9 +34,13 @@ class SceneLoaderWindow : EditorWindow {
 				GUILayout.Label(titleTexture);
 			GUILayout.FlexibleSpace();
 		GUILayout.EndHorizontal();
-
-		EditorGUI.DrawRect(new Rect(0, titleTexture.height, editorWindow.position.width, 2f), Color.white);
-
+		//check if any value is null, if so reload the show window method
+		if(titleTexture != null || editorWindow != null) {
+			EditorGUI.DrawRect(new Rect(0, titleTexture.height, editorWindow.position.width, 2f), Color.white);
+		} else {
+			ShowWindow();
+		}
+		
 		GUILayout.Space(6f);
 
 
