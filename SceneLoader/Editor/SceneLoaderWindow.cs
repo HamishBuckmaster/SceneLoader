@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 using UnityEditor;
 using System.Collections;
 using System.IO;
@@ -12,6 +13,8 @@ class SceneLoaderWindow : EditorWindow {
 	static FileInfo[] fileInfo;
 	static Vector2 scrollPosition;
 	static string fileToShit;
+
+	string stringToEdit = "New Scene";
 
 	[MenuItem ("Window/SceneLoader")]
 	public static void  ShowWindow (){
@@ -34,20 +37,23 @@ class SceneLoaderWindow : EditorWindow {
 				GUILayout.Label(titleTexture);
 			GUILayout.FlexibleSpace();
 		GUILayout.EndHorizontal();
-		//check if any value is null, if so reload the show window method
 		if(titleTexture != null || editorWindow != null) {
 			EditorGUI.DrawRect(new Rect(0, titleTexture.height, editorWindow.position.width, 2f), Color.white);
 		} else {
 			ShowWindow();
 		}
-		
+
 		GUILayout.Space(6f);
 
 
 		if(GUILayout.Button("Refresh Scenes")){
 			CheckForSceneExistence();
 		}
-
+		GUILayout.Space(6f);
+		stringToEdit = GUILayout.TextField(stringToEdit, 25);
+		if(GUILayout.Button("Create New Scene")){
+			CreateScene(stringToEdit);
+		}
 		GUILayout.Space(12f);
 
 		GUILayout.Label("Scenes in project:");
@@ -90,5 +96,19 @@ class SceneLoaderWindow : EditorWindow {
 	
 	static void CheckForSceneExistence(){
 		fileInfo = (new DirectoryInfo(Application.dataPath)).GetFiles("*.unity", SearchOption.AllDirectories);
+	}
+
+	static void CreateScene(string sceneName)
+	{
+		try {
+		Debug.Log("Creating Scene: " + sceneName);
+		Scene newScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
+		EditorSceneManager.SaveScene(newScene, Application.dataPath + @"/Scenes/" + sceneName + ".unity");
+		CheckForSceneExistence();
+		}
+		catch
+		{
+			EditorUtility.DisplayDialog("Error!", "An Error occured", "ok");
+		}
 	}
 }
