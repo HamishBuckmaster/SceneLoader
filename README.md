@@ -12,4 +12,4 @@ To get started, import the package "SceneLoader.unitypackage" you got at the Ass
  - Load Scene:
 	 - Click on the button named like the scene you wish to open.
  - Delete Scene:
-	 - To delete a specific scene just click on the "d" button next to that scene you wish to delete.
+	 - To delete a specific scene just click on the "Trash Can/Rubbish Bin Icon" button next to that scene you wish to delete.
